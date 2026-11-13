@@ -74,4 +74,4 @@ magpie plugin add .
 
 配置新增可选 `models` 数组，每项包含 `modelID` 和已知的 `name/contextWindow/maxTokens/supportsImages/reasoning`。顶层 `model` 仍只指定新建会话的默认模型。目录最多1000项，重复ID按首次出现去重，非法或超限目录报错，不静默截断。Magpie更新开放目录时会重新调用connect；Kairo在新建会话或打开模型列表/供应商管理时自动导入。旧bridge缺少数组时兼容单模型；已有模型身份和历史会话保留，目录缩减不自动删除历史模型。
 
-插件卡片和 Kairo Agent 行使用 Kairo 原应用图标，内嵌 PNG 可离线显示；源图保存在 `assets/kairo.png`。
+插件卡片和 Kairo Agent 行使用 Kairo 原应用图标，内嵌 SVG 可离线显示，以连续曲率圆角裁切原图，四角透明；原图保存在 `assets/kairo.png`，裁切资产为 `assets/kairo-rounded.svg`。

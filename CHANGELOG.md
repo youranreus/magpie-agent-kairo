@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- Give the Kairo icon continuous rounded corners with transparent corners, preserving the original artwork.
+
 ## 0.2.0
 
 - Export all models and routing groups Magpie exposes to Kairo, so compatible Kairo builds list them without manual synchronization or per-model selection.
