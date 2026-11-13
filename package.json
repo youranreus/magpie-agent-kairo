@@ -1,0 +1,24 @@
+{
+  "name": "magpie-agent-kairo",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Manage the model for new Kairo conversations from Magpie",
+  "magpie": {
+    "agent": "./kairo.agent.js"
+  },
+  "scripts": {
+    "test": "node --test kairo.agent.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youranreus/magpie-agent-kairo.git"
+  },
+  "homepage": "https://github.com/youranreus/magpie-agent-kairo#readme",
+  "bugs": {
+    "url": "https://github.com/youranreus/magpie-agent-kairo/issues"
+  },
+  "files": [
+    "kairo.agent.js",
+    "README.md"
+  ]
+}
