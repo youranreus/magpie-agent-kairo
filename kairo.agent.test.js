@@ -23,3 +23,31 @@ test("unknown and invalid capacities stay unknown rather than becoming zero or i
   }
   assert.deepEqual(connect({ gateway, model: { images: false } }).modelInfo, { supportsImages: false });
 });
+
+
+test("all agent-visible models and groups are exported independently of the default", () => {
+  const gateway = { v1: "http://localhost:3425/v1", key: "test-key" };
+  const models = [
+    { id: "codex/sol", name: "Sol", context: 500000, output: 128000, images: true, efforts: ["low"] },
+    { id: "tokenlink/hy4", name: "HY4", context: 1048576, output: 65536, images: false, efforts: ["none", "high"] },
+    { id: "group/coding", name: "Coding" }
+  ];
+  const first = connect({ gateway, model: models[0], models });
+  const second = connect({ gateway, model: models[1], models });
+  assert.deepEqual(first.models, [
+    { modelID: "codex/sol", name: "Sol", contextWindow: 500000, maxTokens: 128000, supportsImages: true, reasoning: true },
+    { modelID: "tokenlink/hy4", name: "HY4", contextWindow: 1048576, maxTokens: 65536, supportsImages: false, reasoning: true },
+    { modelID: "group/coding", name: "Coding" }
+  ]);
+  assert.deepEqual(first.models, second.models);
+  assert.notDeepEqual(first.modelInfo, second.modelInfo);
+});
+
+test("duplicate catalog IDs are stable and malformed or oversized catalogs fail without truncation", () => {
+  const gateway = { v1: "http://localhost:3425/v1", key: "test-key" };
+  const model = { id: "provider/default" };
+  assert.deepEqual(connect({ gateway, model, models: [{ id: "provider/m" }, { id: "provider/m" }] }).models, [{ modelID: "provider/m" }]);
+  for (const models of [[{ id: "" }], [{ id: " provider/m" }], [null], Array.from({ length: 1001 }, (_, i) => ({ id: "p/" + i }))]) {
+    assert.throws(() => connect({ gateway, model, models }));
+  }
+});

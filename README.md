@@ -17,7 +17,7 @@
 3. 在 Magpie 的 Agent 页找到 Kairo，选择具体模型或路由组。
 4. 在 Kairo 新建会话。接入使用 OpenAI Responses 协议，模型、工具和流式响应通过本机 Magpie 网关发送。
 
-Magpie 的连接状态表示配置文件已连接；Kairo 读取并校验配置后才应用。网关需要保持运行。首版不支持远程网关或从 Magpie 调整 Kairo 推理强度，不批量导入完整模型库。
+Magpie 的连接状态表示配置文件已连接；Kairo 读取并校验配置后才应用。网关需要保持运行。不支持远程网关或从 Magpie 调整 Kairo 推理强度。插件自动传递 Magpie 为 Kairo 开放的全部模型和路由组，Kairo 自动入列，无需手动同步或勾选。需要支持全量目录的 Kairo 构建。
 
 ## 配置契约
 
@@ -69,3 +69,9 @@ magpie plugin add .
 ```
 
 此仓库独立分发插件；使用前需要已包含 Magpie 配置桥的 Kairo 构建。插件公开不代表该功能已经随 Kairo 正式版发布。
+
+## 全量模型目录（0.2.0）
+
+配置新增可选 `models` 数组，每项包含 `modelID` 和已知的 `name/contextWindow/maxTokens/supportsImages/reasoning`。顶层 `model` 仍只指定新建会话的默认模型。目录最多1000项，重复ID按首次出现去重，非法或超限目录报错，不静默截断。Magpie更新开放目录时会重新调用connect；Kairo在新建会话或打开模型列表/供应商管理时自动导入。旧bridge缺少数组时兼容单模型；已有模型身份和历史会话保留，目录缩减不自动删除历史模型。
+
+插件卡片和 Kairo Agent 行使用 Kairo 原应用图标，内嵌 PNG 可离线显示；源图保存在 `assets/kairo.png`。
